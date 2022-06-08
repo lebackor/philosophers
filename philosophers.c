@@ -1,15 +1,39 @@
 #include "philosophers.h"
 
-void    *routine(void * xx)
+void    *routine(void *pol)
 {
-    printf("4xd\n");
+    t_env *p;
+    
+    p = pol;
+    pthread_mutex_lock(&p->mutex);
+    printf("thread\n");
+    while (p->i < 50000000)
+        p->i++;
+    printf("tXAXAX\n");
+
+    pthread_mutex_unlock(&p->mutex);
+    return NULL;
+}
+
+void put_philo(t_env *p)
+{
+
+    pthread_mutex_init(&p->mutex, NULL);
+    while (p->i++ < p->nb_philos)
+        ft_addback(p);
+    return ;
 }
 
 int main(int ac, char **av, char **envp)
 {
     (void) envp;
-    t_env p;
+    t_env *p;
 
-    pthread_create(&p.content, NULL, routine, NULL);
-    pthread_join(&p.content, NULL);
+    if (ac == 1)
+        return (printf("No philosophers\n"));
+    p = malloc(sizeof(t_env));
+    *p = (t_env){0};
+    p->nb_philos = ft_atoi(av[1]);
+    put_philo(p);
+    printf("%d\n", p->i);
 }

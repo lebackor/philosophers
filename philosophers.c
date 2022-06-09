@@ -4,14 +4,11 @@ void    *routine(void *pol)
 {
     t_env *p;
     
-    p = pol;
+    p = (t_env *)pol;
     pthread_mutex_lock(&p->mutex);
-    printf("thread\n");
-    while (p->i < 50000000)
-        p->i++;
-    printf("tXAXAX\n");
-
-    pthread_mutex_unlock(&p->mutex);
+    while (p->t < 50000000)
+        p->t++;
+   pthread_mutex_unlock(&p->mutex);
     return NULL;
 }
 
@@ -35,5 +32,5 @@ int main(int ac, char **av, char **envp)
     *p = (t_env){0};
     p->nb_philos = ft_atoi(av[1]);
     put_philo(p);
-    printf("%d\n", p->i);
+    printf("%d\n", p->t);
 }

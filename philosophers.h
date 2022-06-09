@@ -10,6 +10,7 @@ typedef struct t_env
 	pthread_mutex_t mutex;
 	int	nb_philos;
 	int i;
+	int t;
 	struct t_env	*next;
 }t_env;
 t_env	*create_liste(t_env *p);

@@ -3,7 +3,7 @@ t_env	*create_liste(t_env *p)
 {
 	p = malloc(sizeof(t_env));
 	p->next = NULL;
-    return (p);
+	return (p);
 }
 t_env	*ft_addback(t_env *p)
 {

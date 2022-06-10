@@ -1,13 +1,13 @@
 #include "philosophers.h"
-t_env	*create_liste(t_env *p)
+t_philo	*create_liste(t_philo *p)
 {
-	p = malloc(sizeof(t_env));
+	p = malloc(sizeof(t_philo));
 	p->next = NULL;
 	return (p);
 }
-t_env	*ft_addback(t_env *p)
+t_philo	*ft_addback(t_philo *p)
 {
-	t_env	*t_pile;
+	t_philo	*t_pile;
 
 	if (!(p->content))
 	{

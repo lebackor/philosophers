@@ -2,29 +2,14 @@
 
 void    *routine(void *pol)
 {
-    t_env *p;
-    
-    p = (t_env *)pol;
-    p->thread = p->thread + 1;
-    printf("timestamps %d is thinking\n", p->thread);
-    if (pthread_mutex_lock(&p->mutex) == 0 && p->fork > 1)
-    {
-        printf("timestamps %d is eating\n", p->thread);
-        usleep(p->time_to_eat);
-        printf("timestamps %d is sleeping\n", p->thread);
-        usleep(p->time_to_sleep);
-        pthread_mutex_unlock(&p->mutex);
-    }
-    else
-    {
-        usleep(5000);
-    }
+    printf("x\n");
+    (void) pol;
     return NULL;
 }
 
-void ft_threadjoin(t_env *p)
+void ft_threadjoin(t_philo *p)
 {
-    t_env *tmp;
+    t_philo *tmp;
 
     tmp = p;
     while (tmp->next != NULL)
@@ -38,13 +23,11 @@ void ft_threadjoin(t_env *p)
 }
 
 
-void put_philo(t_env *p)
+void put_philo(t_philo *p, t_info *philo)
 {
 
-    p->fork = p->nb_philos;
-    p->thread = 0;
     pthread_mutex_init(&p->mutex, NULL);
-    while (p->i++ < p->nb_philos)
+    while (philo->i++ < philo->nb_philos)
         ft_addback(p);
     ft_threadjoin(p);
     return ;
@@ -53,16 +36,20 @@ void put_philo(t_env *p)
 int main(int ac, char **av, char **envp)
 {
     (void) envp;
-    t_env *p;
-
-    if (ac != 5)
+    t_philo *p;
+    t_info *philos;
+    if (ac != 5 && ac != 6)
         return (printf("Not the good args\n"));
-    p = malloc(sizeof(t_env));
-    *p = (t_env){0};
-    p->nb_philos = ft_atoi(av[1]);
-    p->time_to_die = ft_atoi(av[2]);
-    p->time_to_eat = ft_atoi(av[3]);
-    p->time_to_sleep = ft_atoi(av[4]);
-    put_philo(p);
+    p = malloc(sizeof(t_philo));
+    philos = malloc(sizeof(t_info));
+    *p = (t_philo){0};
+    *philos = (t_info){0};
+    philos->nb_philos = ft_atoi(av[1]);
+    philos->time_to_die = ft_atoi(av[2]);
+    philos->time_to_eat = ft_atoi(av[3]);
+    philos->time_to_sleep = ft_atoi(av[4]);
+    if (ac == 6)
+        philos->number_of_times_each_philosopher_must_eat = ft_atoi(av[5]);
+    put_philo(p, philos);
     //printf("%d\n", p->t);
 }

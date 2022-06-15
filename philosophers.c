@@ -2,33 +2,70 @@
 
 void    *routine(void *pol)
 {
-    printf("x\n");
-    (void) pol;
-    return NULL;
+    t_philo *philo;
+
+    philo = (t_philo *)pol;
+   // while (is_dead(philo) == 0)
+   // {
+
+        pthread_mutex_lock(&philo->mutex);
+      //  pthread_mutex_lock(&philo->next->mutex);
+        printf("%d is eating\n",philo->number);
+        pthread_mutex_unlock(&philo->mutex);
+        //pthread_mutex_unlock(&philo->next->mutex);
+       // usleep(50000);
+    
+   // }
+    return (NULL);
 }
 
 void ft_threadjoin(t_philo *p)
 {
     t_philo *tmp;
+    int i;
 
     tmp = p;
-    while (tmp->next != NULL)
+    i = 0;
+    while (i < p->nb_philos)
     {
        pthread_join(tmp->content, NULL);
        tmp = tmp->next; 
+       i++;
     }
-    if (tmp->content)
-        pthread_join(tmp->content, NULL);
+    printf("%d\n", i);
     return ;
 }
+/*
+void ft_thread(t_philo *p)
+{
+    t_philo *tmp;
+    int i;
+    tmp = p;
+    i = 0;
 
+    while (i < p->nb_philos)
+    {
+	    pthread_mutex_init((&tmp->mutex), NULL); 
+        pthread_create((&tmp->content), NULL, routine, p);
+        tmp = tmp->next;
+
+        i++;
+    }
+}*/
 
 void put_philo(t_philo *p, t_info *philo)
 {
 
-    pthread_mutex_init(&p->mutex, NULL);
+    t_philo *tmp;
+
     while (philo->i++ < philo->nb_philos)
         ft_addback(p);
+    tmp = p;
+    while (tmp->next != NULL)
+        tmp = tmp->next;
+    tmp->next = p;
+    p->nb_philos = philo->nb_philos;
+   // ft_thread(p);
     ft_threadjoin(p);
     return ;
 }

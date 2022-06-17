@@ -9,7 +9,7 @@
 typedef struct t_info
 {
 //	pthread_t		content;
-//	pthread_mutex_t mutex;
+	pthread_mutex_t print;
 	int	nb_philos;
 	int time_to_die;
 	int  time_to_eat;
@@ -25,15 +25,15 @@ typedef struct t_info
 
 typedef struct t_philo{
 	int number;
-	int nb_philos;
 	int is_dead;
 	pthread_t		content;
 	pthread_mutex_t mutex;
+	struct t_info *tg;
 	struct t_philo *next;
 }t_philo;
 
 t_philo	*create_liste(t_philo *p);
-t_philo	*ft_addback(t_philo *p);
+t_philo	*ft_addback(t_philo *p, t_info *philo);
 void    *routine();
 int	ft_atoi(const char *str);
 void ft_threadjoin(t_philo *p);

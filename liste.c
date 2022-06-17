@@ -5,7 +5,7 @@ t_philo	*create_liste(t_philo *p)
 	p->next = NULL;
 	return (p);
 }
-t_philo	*ft_addback(t_philo *p)
+t_philo	*ft_addback(t_philo *p, t_info *philo)
 {
 	t_philo	*t_pile;
 
@@ -13,6 +13,7 @@ t_philo	*ft_addback(t_philo *p)
 	{
 		create_liste(p);
 		p->number = 1;
+		p->tg = philo;
 		pthread_mutex_init((&p->mutex), NULL);
         pthread_create((&p->content), NULL, routine, p); 
 	}
@@ -22,9 +23,10 @@ t_philo	*ft_addback(t_philo *p)
 		while (t_pile->next != NULL)  
 			t_pile = t_pile->next;
 		t_pile->next = create_liste(p);
+		t_pile->next->tg = philo;
 		t_pile->next->number = t_pile->number + 1;
 		pthread_mutex_init((&t_pile->next->mutex), NULL); 
-		pthread_create((&t_pile->next->content), NULL, routine, p);
+		pthread_create((&t_pile->next->content), NULL, routine, t_pile->next);
 		return (t_pile);
 	}
 	return (p);

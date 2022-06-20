@@ -25,6 +25,7 @@ t_philo	*ft_addback(t_philo *p, t_info *philo)
 		t_pile->next = create_liste(p);
 		t_pile->next->tg = philo;
 		t_pile->next->number = t_pile->number + 1;
+		t_pile->next->tg->number_of_times_each_philosopher_must_eat = t_pile->tg->number_of_times_each_philosopher_must_eat; 
 		pthread_mutex_init((&t_pile->next->mutex), NULL); 
 		pthread_create((&t_pile->next->content), NULL, routine, t_pile->next);
 		return (t_pile);

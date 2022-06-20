@@ -5,16 +5,18 @@ void    *routine(void *pol)
     t_philo *philo;
 
     philo = (t_philo *)pol;
-    while (is_dead(philo) == 0)
+    while (is_dead(philo) == 0 && is_meal(philo) == 0)
     {
         pthread_mutex_lock(&philo->mutex);
         pthread_mutex_lock(&philo->next->mutex);
-        pthread_mutex_lock(&philo->tg->print);
+      //  pthread_mutex_lock(&philo->tg->print);
         printf("%d is eating\n",philo->number);
+        philo->meal++;
         usleep(philo->tg->time_to_eat);
-        pthread_mutex_unlock(&philo->tg->print);
+        //pthread_mutex_unlock(&philo->tg->print);
         pthread_mutex_unlock(&philo->next->mutex);
         pthread_mutex_unlock(&philo->mutex);
+        printf("%d is sleeping\n",philo->number);
         usleep(philo->tg->time_to_sleep);
     }
     return (NULL);
@@ -70,7 +72,7 @@ int main(int ac, char **av, char **envp)
     if (ac == 6)
         philos->number_of_times_each_philosopher_must_eat = ft_atoi(av[5]);
 	else
-
+        philos->number_of_times_each_philosopher_must_eat = -1;
     pthread_mutex_init((&philos->print), NULL);
     put_philo(p, philos);
     //printf("%d\n", p->t);

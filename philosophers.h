@@ -26,6 +26,7 @@ typedef struct t_info
 typedef struct t_philo{
 	int number;
 	int is_dead;
+	int meal;
 	pthread_t		content;
 	pthread_mutex_t mutex;
 	struct t_info *tg;
@@ -38,4 +39,5 @@ void    *routine();
 int	ft_atoi(const char *str);
 void ft_threadjoin(t_philo *p);
 int is_dead(t_philo *p);
+int is_meal(t_philo *p);
 #endif

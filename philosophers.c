@@ -7,6 +7,7 @@ void    *routine(void *pol)
     philo = (t_philo *)pol;
     while (is_dead(philo) == 0 && is_meal(philo) == 0)
     {
+        printf("%d is thinking\n",philo->number);
         pthread_mutex_lock(&philo->mutex);
         pthread_mutex_lock(&philo->next->mutex);
       //  pthread_mutex_lock(&philo->tg->print);
@@ -18,6 +19,8 @@ void    *routine(void *pol)
         pthread_mutex_unlock(&philo->mutex);
         printf("%d is sleeping\n",philo->number);
         usleep(philo->tg->time_to_sleep);
+        printf("%d is thinking\n",philo->number);
+
     }
     return (NULL);
 }

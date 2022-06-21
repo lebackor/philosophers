@@ -2,9 +2,11 @@
 
 int is_dead(t_philo *p)
 {
+    
+    
     if (p->is_dead == 1)
             return (1);
-        //tmp = tmp->next;
+    
     return (0);
 }
 

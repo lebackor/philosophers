@@ -5,21 +5,23 @@ void    *routine(void *pol)
     t_philo *philo;
 
     philo = (t_philo *)pol;
+        
     while (is_dead(philo) == 0 && is_meal(philo) == 0)
     {
-        printf("%d is thinking\n",philo->number);
+        philo->time = (get_time() - philo->tg->current_time) ;
+        printf("[%lld] %d is thinking\n", philo->time , philo->number);
         pthread_mutex_lock(&philo->mutex);
         pthread_mutex_lock(&philo->next->mutex);
       //  pthread_mutex_lock(&philo->tg->print);
-        printf("%d is eating\n",philo->number);
+        printf("[%lld] %d is eating\n",philo->time , philo->number);
         philo->meal++;
         usleep(philo->tg->time_to_eat);
         //pthread_mutex_unlock(&philo->tg->print);
         pthread_mutex_unlock(&philo->next->mutex);
         pthread_mutex_unlock(&philo->mutex);
-        printf("%d is sleeping\n",philo->number);
+        printf("[%lld] %d is sleeping\n", philo->time , philo->number);
         usleep(philo->tg->time_to_sleep);
-        printf("%d is thinking\n",philo->number);
+        printf("[%lld] %d is thinking\n", philo->time , philo->number);
 
     }
     return (NULL);
@@ -77,6 +79,7 @@ int main(int ac, char **av, char **envp)
 	else
         philos->number_of_times_each_philosopher_must_eat = -1;
     pthread_mutex_init((&philos->print), NULL);
+    philos->current_time = get_time();
     put_philo(p, philos);
     //printf("%d\n", p->t);
 }

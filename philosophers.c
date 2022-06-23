@@ -4,11 +4,13 @@ void    *routine(void *pol)
 {
     t_philo *philo;
 
+
     philo = (t_philo *)pol;
-        
-    while (is_dead(philo) == 0 && is_meal(philo) == 0)
-    {
-        philo->time = (get_time() - philo->tg->current_time) ;
+    //print(info, philo, "xd\n");
+/*    while (is_dead(philo) == 0 && is_meal(philo) == 0)
+  //  {
+        //philo->time = (get_time() - philo->tg->current_time) ;
+        philo->time = 0;
         printf("[%lld] %d is thinking\n", philo->time , philo->number);
         pthread_mutex_lock(&philo->mutex);
         pthread_mutex_lock(&philo->next->mutex);
@@ -22,10 +24,26 @@ void    *routine(void *pol)
         printf("[%lld] %d is sleeping\n", philo->time , philo->number);
         usleep(philo->tg->time_to_sleep);
         printf("[%lld] %d is thinking\n", philo->time , philo->number);
-
-    }
+*/
+   // }
     return (NULL);
 }
+
+void ft_thread(t_philo *p)
+{
+    t_philo *tmp;
+    int i;
+
+    i = 1;
+    tmp = p;
+    while (i <= p->tg->nb_philos)
+    {
+       pthread_create((&tmp->content), NULL, routine, tmp); 
+       tmp = tmp->next; 
+       i++;
+    }
+}
+
 
 void ft_threadjoin(t_philo *p)
 {
@@ -33,10 +51,11 @@ void ft_threadjoin(t_philo *p)
     int i;
 
     tmp = p;
-    i = 0;
-    while (i < p->tg->nb_philos)
+    i = 1;
+    while (i <= p->tg->nb_philos)
     {
        pthread_join(tmp->content, NULL);
+        printf("%d ok join\n", tmp->number);
        tmp = tmp->next; 
        i++;
     }
@@ -50,11 +69,12 @@ void put_philo(t_philo *p, t_info *philo)
     t_philo *tmp;
 
     while (philo->i++ < philo->nb_philos)
-        ft_addback(p, philo);
+        ft_addback(p, philo, philo->i);
     tmp = p;
     while (tmp->next != NULL)
         tmp = tmp->next;
     tmp->next = p;
+    ft_thread(p);
     ft_threadjoin(p);
     return ;
 }
@@ -81,5 +101,7 @@ int main(int ac, char **av, char **envp)
     pthread_mutex_init((&philos->print), NULL);
     philos->current_time = get_time();
     put_philo(p, philos);
+    mutex_destroy(p);
     //printf("%d\n", p->t);
+    return (0);
 }

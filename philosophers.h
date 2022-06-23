@@ -36,12 +36,14 @@ typedef struct t_philo{
 }t_philo;
 
 t_philo	*create_liste(t_philo *p);
-t_philo	*ft_addback(t_philo *p, t_info *philo);
+t_philo	*ft_addback(t_philo *p, t_info *philo, int i);
 void    *routine();
 int	ft_atoi(const char *str);
 void ft_threadjoin(t_philo *p);
 int is_dead(t_philo *p);
 int is_meal(t_philo *p);
 long long get_time(void);
-
+void ft_thread(t_philo *p);
+void print(t_info *info, t_philo *p, char *str);
+void mutex_destroy(t_philo *p);
 #endif

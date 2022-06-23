@@ -5,17 +5,17 @@ t_philo	*create_liste(t_philo *p)
 	p->next = NULL;
 	return (p);
 }
-t_philo	*ft_addback(t_philo *p, t_info *philo)
+t_philo	*ft_addback(t_philo *p, t_info *philo, int i)
 {
 	t_philo	*t_pile;
 
-	if (!(p->content))
+	if (i == 1)
 	{
 		create_liste(p);
 		p->number = 1;
 		p->tg = philo;
 		pthread_mutex_init((&p->mutex), NULL);
-        pthread_create((&p->content), NULL, routine, p); 
+   //     pthread_create((&p->content), NULL, routine, p); 
 	}
 	else
 	{
@@ -27,7 +27,7 @@ t_philo	*ft_addback(t_philo *p, t_info *philo)
 		t_pile->next->number = t_pile->number + 1;
 		t_pile->next->tg->number_of_times_each_philosopher_must_eat = t_pile->tg->number_of_times_each_philosopher_must_eat; 
 		pthread_mutex_init((&t_pile->next->mutex), NULL); 
-		pthread_create((&t_pile->next->content), NULL, routine, t_pile->next);
+	//	pthread_create((&t_pile->next->content), NULL, routine, t_pile->next);
 		return (t_pile);
 	}
 	return (p);

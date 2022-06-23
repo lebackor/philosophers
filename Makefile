@@ -2,13 +2,14 @@ SRCS = 		philosophers.c\
 			liste.c\
 			utils.c\
 			checking.c\
+			utils2.c\
 			
 
 OBJS = ${SRCS:.c=.o}
 
 CC	=	gcc
 
-CFLAGS = -Wall -Werror -Wextra -g3
+CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=address
 
 NAME = philo
 

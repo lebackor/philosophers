@@ -1,11 +1,21 @@
 #include "philosophers.h"
-void print(t_info *info, t_philo *p, char *str)
-{
-    (void)p;
-    pthread_mutex_lock(&info->print);
-    printf("%s", str);
-    pthread_mutex_unlock(&info->print);
 
+
+void    ft_usleep(long long time)
+{
+    long long start;
+
+    start = get_time();
+    while (get_time() - start < time)
+    {
+    }
+}
+
+void print(long long time, t_philo *p, char *str)
+{
+    pthread_mutex_lock(&p->tg->print);
+    printf("[%lld] %d %s\n", time, p->number, str);
+    pthread_mutex_unlock(&p->tg->print);
     return ;
 }
 
@@ -23,4 +33,20 @@ void mutex_destroy(t_philo *p)
         tmp = tmp->next;
         i++;
     }
+}
+
+void ft_clean(t_philo *p, t_info *philo)
+{
+    t_philo *tmp;
+    int i;
+
+    i = 0;
+    while (i < philo->nb_philos)
+    {
+        tmp = p;
+        p = p->next;
+        free(tmp);
+        i++;
+    }
+    free(philo);
 }

@@ -4,28 +4,22 @@ void    *routine(void *pol)
 {
     t_philo *philo;
 
-
     philo = (t_philo *)pol;
-    //print(info, philo, "xd\n");
-/*    while (is_dead(philo) == 0 && is_meal(philo) == 0)
-  //  {
-        //philo->time = (get_time() - philo->tg->current_time) ;
-        philo->time = 0;
-        printf("[%lld] %d is thinking\n", philo->time , philo->number);
-        pthread_mutex_lock(&philo->mutex);
-        pthread_mutex_lock(&philo->next->mutex);
-      //  pthread_mutex_lock(&philo->tg->print);
-        printf("[%lld] %d is eating\n",philo->time , philo->number);
-        philo->meal++;
-        usleep(philo->tg->time_to_eat);
-        //pthread_mutex_unlock(&philo->tg->print);
-        pthread_mutex_unlock(&philo->next->mutex);
-        pthread_mutex_unlock(&philo->mutex);
-        printf("[%lld] %d is sleeping\n", philo->time , philo->number);
-        usleep(philo->tg->time_to_sleep);
-        printf("[%lld] %d is thinking\n", philo->time , philo->number);
-*/
-   // }
+    if (philo->number % 2 != 0)
+        ft_usleep(philo->time_to_eat / 10);
+    philo->current_time = get_time();
+    pthread_mutex_lock(&philo->mutex);
+    print((get_time() - philo->current_time), philo, "has taken fork");
+    pthread_mutex_lock(&philo->next->mutex);
+    print((get_time() - philo->current_time), philo, "has taken fork");
+    philo->meal++;
+    print((get_time() - philo->current_time), philo, "is eating");
+    ft_usleep(philo->time_to_eat);
+    pthread_mutex_unlock(&philo->next->mutex);
+    pthread_mutex_unlock(&philo->mutex);
+    print((get_time() - philo->current_time), philo, "is sleeping");
+    ft_usleep(philo->tg->time_to_sleep);
+    print((get_time() - philo->current_time), philo, "is thinking");
     return (NULL);
 }
 
@@ -55,7 +49,6 @@ void ft_threadjoin(t_philo *p)
     while (i <= p->tg->nb_philos)
     {
        pthread_join(tmp->content, NULL);
-        printf("%d ok join\n", tmp->number);
        tmp = tmp->next; 
        i++;
     }
@@ -102,6 +95,6 @@ int main(int ac, char **av, char **envp)
     philos->current_time = get_time();
     put_philo(p, philos);
     mutex_destroy(p);
-    //printf("%d\n", p->t);
+    ft_clean(p, philos);
     return (0);
 }

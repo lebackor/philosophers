@@ -14,8 +14,9 @@ typedef struct t_info
 	int time_to_die;
 	int  time_to_eat;
 	int    time_to_sleep;
-	int number_of_times_each_philosopher_must_eat;
 	long long current_time;
+	
+	int number_of_times_each_philosopher_must_eat;
 	int fork;
 	int thread;
 	int i;
@@ -27,8 +28,10 @@ typedef struct t_info
 typedef struct t_philo{
 	int number;
 	int is_dead;
+	int  time_to_eat;
 	int meal;
 	long long time;
+	long long current_time;
 	pthread_t		content;
 	pthread_mutex_t mutex;
 	struct t_info *tg;
@@ -44,6 +47,8 @@ int is_dead(t_philo *p);
 int is_meal(t_philo *p);
 long long get_time(void);
 void ft_thread(t_philo *p);
-void print(t_info *info, t_philo *p, char *str);
+void print(long long time, t_philo *p, char *str);
 void mutex_destroy(t_philo *p);
+void ft_clean(t_philo *p, t_info *philo);
+void	ft_usleep(long long time);
 #endif

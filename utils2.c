@@ -45,8 +45,10 @@ void ft_clean(t_philo *p, t_info *philo)
     {
         tmp = p;
         p = p->next;
-        free(tmp);
+        if (tmp)    
+            free(tmp);
         i++;
     }
-    free(philo);
+    if (philo)
+        free(philo);
 }

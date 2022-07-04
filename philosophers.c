@@ -5,21 +5,32 @@ void    *routine(void *pol)
     t_philo *philo;
 
     philo = (t_philo *)pol;
-    if (philo->number % 2 != 0)
+    if (philo->number % 2 == 0)
+    {
         ft_usleep(philo->time_to_eat / 10);
-    philo->current_time = get_time();
-    pthread_mutex_lock(&philo->mutex);
-    print((get_time() - philo->current_time), philo, "has taken fork");
-    pthread_mutex_lock(&philo->next->mutex);
-    print((get_time() - philo->current_time), philo, "has taken fork");
-    philo->meal++;
-    print((get_time() - philo->current_time), philo, "is eating");
-    ft_usleep(philo->time_to_eat);
-    pthread_mutex_unlock(&philo->next->mutex);
-    pthread_mutex_unlock(&philo->mutex);
-    print((get_time() - philo->current_time), philo, "is sleeping");
-    ft_usleep(philo->tg->time_to_sleep);
-    print((get_time() - philo->current_time), philo, "is thinking");
+    }
+
+    while (is_meal(philo) == 0)
+    {
+        pthread_mutex_lock(&philo->mutex);
+        print((get_time() - philo->tg->current_time), philo, "has taken fork");
+        pthread_mutex_lock(&philo->next->mutex);
+        print((get_time() - philo->tg->current_time), philo, "has taken fork");
+        if (is_dead(philo) == 1)
+            return (NULL);
+        philo->meal++;
+        philo->time_of_last_meal = get_time();
+        print((get_time() - philo->tg->current_time), philo, "is eating");
+        usleep(philo->time_to_eat * 1000);
+        pthread_mutex_unlock(&philo->next->mutex);
+        pthread_mutex_unlock(&philo->mutex);
+        print((get_time() - philo->tg->current_time), philo, "is sleeping");
+        usleep(philo->tg->time_to_sleep * 1000);
+        if (is_dead(philo) == 1)
+            return (NULL);
+        print((get_time() - philo->tg->current_time), philo, "is thinking");
+    }
+
     return (NULL);
 }
 
@@ -32,7 +43,7 @@ void ft_thread(t_philo *p)
     tmp = p;
     while (i <= p->tg->nb_philos)
     {
-       pthread_create((&tmp->content), NULL, routine, tmp); 
+       pthread_create((&tmp->content), NULL, routine, tmp);
        tmp = tmp->next; 
        i++;
     }

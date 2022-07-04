@@ -2,18 +2,43 @@
 
 int is_dead(t_philo *p)
 {
-    if (get_time() - p->time_of_last_meal > 1000 && p->meal > 0)
+    if ((((get_time() - p->time_of_last_meal) > p->tg->time_to_die) && p->meal > 0))
     {
-        pthread_mutex_lock(&p->tg->print);
-        printf("[%lld] %d is DEAD\n", get_time() - p->tg->current_time, p->number);
-        pthread_mutex_unlock(&p->tg->print);
+        p->is_dead = 1;
+      //  pthread_detach(p->content);
+       // pthread_mutex_lock(&p->tg->print);
+       // printf("[%lld] %d is DEAD\n", get_time() - p->tg->current_time, p->number);
+       // pthread_mutex_unlock(&p->tg->print);
         return (1);
     }
-   // printf("%lld\n", get_time() - p->time_of_last_meal);
+ //   printf("%lld\n", (get_time() - p->tg->current_time) - p->time_of_last_meal);
+    //printf("%lld\n", p->time_of_last_meal);
     if (p->is_dead == 1)
             return (1);
     
     return (0);
+}
+/*
+t_philo get_index(t_philo p, int index)
+{
+    while (index >= 0)
+    {
+        p->
+    }
+}*/
+
+void    ft_death(t_philo *p)
+{
+    while (p->next)
+    {
+        if (((((get_time() -p->tg->current_time) - (p->time_of_last_meal - p->current_time)) > p->tg->time_to_die) && p->meal > 0))
+        {
+            print((get_time() - p->tg->current_time), p, "is DEAD");
+            p->tg->can_print = 1;
+            return ;
+        }
+        p = p->next;
+    }
 }
 
 int is_meal(t_philo *p)

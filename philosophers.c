@@ -5,11 +5,9 @@ void    *routine(void *pol)
     t_philo *philo;
 
     philo = (t_philo *)pol;
+    pthread_detach(philo->content);
     if (philo->number % 2 == 0)
-    {
         ft_usleep(philo->time_to_eat / 10);
-    }
-
     while (is_meal(philo) == 0)
     {
         pthread_mutex_lock(&philo->mutex);
@@ -18,14 +16,14 @@ void    *routine(void *pol)
         print((get_time() - philo->tg->current_time), philo, "has taken fork");
         if (is_dead(philo) == 1)
             return (NULL);
-        philo->meal++;
         philo->time_of_last_meal = get_time();
+        philo->meal++;
         print((get_time() - philo->tg->current_time), philo, "is eating");
-        usleep(philo->time_to_eat * 1000);
+        ft_usleep(philo->time_to_eat);
         pthread_mutex_unlock(&philo->next->mutex);
         pthread_mutex_unlock(&philo->mutex);
         print((get_time() - philo->tg->current_time), philo, "is sleeping");
-        usleep(philo->tg->time_to_sleep * 1000);
+        ft_usleep(philo->tg->time_to_sleep);
         if (is_dead(philo) == 1)
             return (NULL);
         print((get_time() - philo->tg->current_time), philo, "is thinking");
@@ -79,7 +77,8 @@ void put_philo(t_philo *p, t_info *philo)
         tmp = tmp->next;
     tmp->next = p;
     ft_thread(p);
-    ft_threadjoin(p);
+    ft_death(p);
+   // ft_threadjoin(p);
     return ;
 }
 

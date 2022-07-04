@@ -21,6 +21,7 @@ typedef struct t_info
 	int thread;
 	int i;
 	int t;
+	int can_print;
 	struct t_info	*next;
 }t_info;
 
@@ -52,4 +53,5 @@ void print(long long time, t_philo *p, char *str);
 void mutex_destroy(t_philo *p);
 void ft_clean(t_philo *p, t_info *philo);
 void	ft_usleep(long long time);
+void    ft_death(t_philo *p);
 #endif

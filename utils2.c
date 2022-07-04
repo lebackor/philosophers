@@ -2,20 +2,31 @@
 
 
 void    ft_usleep(long long time)
-{
-    long long start;
+{ 
+    long long   start;
+    long long   current; 
 
     start = get_time();
-    while (get_time() - start < time)
+    while (1)
     {
+        current = get_time();
+        if (current - start > time)
+            return ;
+        else if (current - start > 1000)
+            usleep(100);
+        else
+            usleep(10);
     }
 }
 
 void print(long long time, t_philo *p, char *str)
 {
-    pthread_mutex_lock(&p->tg->print);
-    printf("[%lld] %d %s\n", time, p->number, str);
-    pthread_mutex_unlock(&p->tg->print);
+    if (p->tg->can_print != 1)
+    {
+        pthread_mutex_lock(&p->tg->print);
+        printf("[%lld] %d %s\n", time, p->number, str);
+        pthread_mutex_unlock(&p->tg->print);
+    }
     return ;
 }
 

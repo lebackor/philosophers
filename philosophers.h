@@ -10,6 +10,8 @@ typedef struct t_info
 {
 //	pthread_t		content;
 	pthread_mutex_t print;
+	pthread_mutex_t meal;
+	pthread_mutex_t canprint;
 	int	nb_philos;
 	int time_to_die;
 	int  time_to_eat;
@@ -54,4 +56,5 @@ void mutex_destroy(t_philo *p);
 void ft_clean(t_philo *p, t_info *philo);
 void	ft_usleep(long long time);
 void    ft_death(t_philo *p);
+void    ft_usleep2(long long time, t_philo *p);
 #endif

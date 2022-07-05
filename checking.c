@@ -31,12 +31,17 @@ void    ft_death(t_philo *p)
 {
     while (p->next)
     {
-        if (((((get_time() -p->tg->current_time) - (p->time_of_last_meal - p->current_time)) > p->tg->time_to_die) && p->meal > 0))
+        pthread_mutex_lock(&p->tg->meal);
+        if (((((get_time() - p->current_time) - (p->time_of_last_meal - p->current_time)) > p->tg->time_to_die) && p->meal > 0))
         {
-            print((get_time() - p->tg->current_time), p, "is DEAD");
+            print((get_time() - p->current_time), p, "is DEAD");
+            pthread_mutex_lock(&p->tg->canprint);
             p->tg->can_print = 1;
+            pthread_mutex_unlock(&p->tg->canprint);
+            pthread_mutex_unlock(&p->tg->meal);
             return ;
         }
+        pthread_mutex_unlock(&p->tg->meal);
         p = p->next;
     }
 }

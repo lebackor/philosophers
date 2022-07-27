@@ -24,6 +24,7 @@ typedef struct t_info
 	int i;
 	int t;
 	int can_print;
+	int someoneisdead;
 	struct t_info	*next;
 }t_info;
 

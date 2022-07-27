@@ -5,29 +5,35 @@ void    *routine(void *pol)
     t_philo *philo;
 
     philo = (t_philo *)pol;
-    philo->current_time = get_time();
     pthread_mutex_lock(&philo->tg->meal);
     philo->time_of_last_meal = get_time();
     pthread_mutex_unlock(&philo->tg->meal);
+    if (philo->tg->nb_philos == 1)
+    {
+        print((get_time() - philo->tg->current_time), philo, "has taken fork");
+        ft_usleep2(philo->tg->time_to_die, philo);
+        print((get_time() - philo->tg->current_time), philo, "is DEAD");
+        return (NULL);
+    }
     if (philo->number % 2 == 0)
         ft_usleep2(philo->time_to_eat / 10, philo);
-    while (is_meal(philo) == 0)
+    while (is_meal(philo) == 0 && philo->tg->someoneisdead == 0)
     {
         pthread_mutex_lock(&philo->mutex);
-        print((get_time() - philo->current_time), philo, "me has taken fork");
+        print((get_time() - philo->tg->current_time), philo, "has taken fork");
         pthread_mutex_lock(&philo->next->mutex);
-        print((get_time() - philo->current_time), philo, "has taken fork");
+        print((get_time() - philo->tg->current_time), philo, "has taken fork");
         pthread_mutex_lock(&philo->tg->meal);
         philo->time_of_last_meal = get_time();
         philo->meal++;
         pthread_mutex_unlock(&philo->tg->meal);
-        print((get_time() - philo->current_time), philo, "is eating");
+        print((get_time() - philo->tg->current_time), philo, "is eating");
         ft_usleep2(philo->time_to_eat, philo);
-         pthread_mutex_unlock(&philo->mutex);
         pthread_mutex_unlock(&philo->next->mutex);
-        print((get_time() - philo->current_time), philo, "is sleeping");
+        pthread_mutex_unlock(&philo->mutex);
+        print((get_time() - philo->tg->current_time), philo, "is sleeping");
         ft_usleep2(philo->tg->time_to_sleep, philo);
-        print((get_time() - philo->current_time), philo, "is thinking");
+        print((get_time() - philo->tg->current_time), philo, "is thinking");
     }
     return (NULL);
 }
@@ -38,23 +44,23 @@ void    *routine1(void *pol)
     philo = (t_philo *)pol;
     if (philo->number % 2 == 0)
         ft_usleep2(philo->time_to_eat / 10, philo);
-    while (is_meal(philo) == 0)
+    while (is_meal(philo) == 0 && philo->tg->someoneisdead == 0)
     {
         pthread_mutex_lock(&philo->next->mutex);
-        print((get_time() - philo->current_time), philo, "has taken fork");
+        print((get_time() - philo->tg->current_time), philo, "has taken fork");
         pthread_mutex_lock(&philo->mutex);
-        print((get_time() - philo->current_time), philo, "has taken fork");
+        print((get_time() - philo->tg->current_time), philo, "has taken fork");
         pthread_mutex_lock(&philo->tg->meal);
         philo->time_of_last_meal = get_time();
         philo->meal++;
         pthread_mutex_unlock(&philo->tg->meal);
-        print((get_time() - philo->current_time), philo, "is eating");
+        print((get_time() - philo->tg->current_time), philo, "is eating");
         ft_usleep2(philo->time_to_eat, philo);
-        pthread_mutex_unlock(&philo->next->mutex);
         pthread_mutex_unlock(&philo->mutex);
-        print((get_time() - philo->current_time), philo, "is sleeping");
+        pthread_mutex_unlock(&philo->next->mutex);
+        print((get_time() - philo->tg->current_time), philo, "is sleeping");
         ft_usleep2(philo->tg->time_to_sleep, philo);
-        print((get_time() - philo->current_time), philo, "is thinking");
+        print((get_time() - philo->tg->current_time), philo, "is thinking");
     }
     return (NULL);
 }
@@ -118,6 +124,8 @@ int main(int ac, char **av)
     t_info *philos;
     if (ac != 5 && ac != 6)
         return (printf("Not the good args\n"));
+    if (ft_atoi(av[1]) < 1)
+        return (printf("No Philosophers\n"));
     p = malloc(sizeof(t_philo));
     philos = malloc(sizeof(t_info));
     *p = (t_philo){0};
@@ -133,6 +141,7 @@ int main(int ac, char **av)
     pthread_mutex_init((&philos->print), NULL);
     pthread_mutex_init((&philos->meal), NULL);
     pthread_mutex_init((&philos->canprint), NULL);
+    philos->current_time = get_time();
     put_philo(p, philos);
     mutex_destroy(p);
     ft_clean(p, philos);

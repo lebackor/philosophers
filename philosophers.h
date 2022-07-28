@@ -12,6 +12,7 @@ typedef struct t_info
 	pthread_mutex_t print;
 	pthread_mutex_t meal;
 	pthread_mutex_t canprint;
+	pthread_mutex_t candeath;
 	int	nb_philos;
 	int time_to_die;
 	int  time_to_eat;
@@ -48,7 +49,7 @@ t_philo	*ft_addback(t_philo *p, t_info *philo, int i);
 void    *routine();
 int	ft_atoi(const char *str);
 void ft_threadjoin(t_philo *p);
-int is_dead(t_philo *p);
+//int is_dead(t_philo *p);
 int is_meal(t_philo *p);
 long long get_time(void);
 void ft_thread(t_philo *p);
@@ -58,4 +59,6 @@ void ft_clean(t_philo *p, t_info *philo);
 void	ft_usleep(long long time);
 void    ft_death(t_philo *p);
 void    ft_usleep2(long long time, t_philo *p);
+void    *one_philo(t_philo *philo);
+void init_philo(t_info *philos, int ac, char **av);
 #endif

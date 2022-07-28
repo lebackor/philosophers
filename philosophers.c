@@ -1,5 +1,5 @@
 #include "philosophers.h"
-
+// maybe change ftusleep2 en real usleep 
 void    *routine(void *pol)
 {
     t_philo *philo;
@@ -8,13 +8,6 @@ void    *routine(void *pol)
     pthread_mutex_lock(&philo->tg->meal);
     philo->time_of_last_meal = get_time();
     pthread_mutex_unlock(&philo->tg->meal);
-    if (philo->tg->nb_philos == 1)
-    {
-        print((get_time() - philo->tg->current_time), philo, "has taken fork");
-        ft_usleep2(philo->tg->time_to_die, philo);
-        print((get_time() - philo->tg->current_time), philo, "is DEAD");
-        return (NULL);
-    }
     if (philo->number % 2 == 0)
         ft_usleep2(philo->time_to_eat / 10, philo);
     while (is_meal(philo) == 0 && philo->tg->someoneisdead == 0)
@@ -42,6 +35,8 @@ void    *routine1(void *pol)
     t_philo *philo;
 
     philo = (t_philo *)pol;
+    if (philo->tg->nb_philos == 1)
+        return (one_philo(philo));
     if (philo->number % 2 == 0)
         ft_usleep2(philo->time_to_eat / 10, philo);
     while (is_meal(philo) == 0 && philo->tg->someoneisdead == 0)
@@ -97,7 +92,6 @@ void ft_threadjoin(t_philo *p)
        tmp = tmp->next; 
        i++;
     }
-   // printf("%d\n", p->nb_philos);
     return ;
 }
 
@@ -127,21 +121,10 @@ int main(int ac, char **av)
     if (ft_atoi(av[1]) < 1)
         return (printf("No Philosophers\n"));
     p = malloc(sizeof(t_philo));
-    philos = malloc(sizeof(t_info));
     *p = (t_philo){0};
+    philos = malloc(sizeof(t_info));
     *philos = (t_info){0};
-    philos->nb_philos = ft_atoi(av[1]);
-    philos->time_to_die = ft_atoi(av[2]);
-    philos->time_to_eat = ft_atoi(av[3]);
-    philos->time_to_sleep = ft_atoi(av[4]);
-    if (ac == 6)
-        philos->number_of_times_each_philosopher_must_eat = ft_atoi(av[5]);
-	else
-        philos->number_of_times_each_philosopher_must_eat = -1;
-    pthread_mutex_init((&philos->print), NULL);
-    pthread_mutex_init((&philos->meal), NULL);
-    pthread_mutex_init((&philos->canprint), NULL);
-    philos->current_time = get_time();
+    init_philo(philos, ac, av);
     put_philo(p, philos);
     mutex_destroy(p);
     ft_clean(p, philos);

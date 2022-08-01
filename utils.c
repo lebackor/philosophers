@@ -6,7 +6,7 @@
 /*   By: lebackor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 16:39:39 by lebackor          #+#    #+#             */
-/*   Updated: 2022/08/01 19:56:26 by lebackor         ###   ########.fr       */
+/*   Updated: 2022/08/01 21:16:47 by lebackor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_atoi(const char *str)
 
 long long	get_time(void)
 {
-	struct	timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
 	return (((tv.tv_sec) * 1000) + ((tv.tv_usec) / 1000));

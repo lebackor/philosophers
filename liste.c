@@ -6,7 +6,7 @@
 /*   By: lebackor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 16:39:53 by lebackor          #+#    #+#             */
-/*   Updated: 2022/08/01 16:40:00 by lebackor         ###   ########.fr       */
+/*   Updated: 2022/08/01 21:18:46 by lebackor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,19 @@ t_philo	*ft_addback(t_philo *p, t_info *philo, int i)
 	{
 		p->number = 1;
 		p->tg = philo;
-    	//p->current_time = get_time();
-		p->time_to_eat = p->tg->time_to_eat;
+	//	p->time_to_eat = p->tg->time_to_eat;
 		pthread_mutex_init((&p->mutex), NULL);
 	}
 	else
 	{
-        t_pile = p;
-		while (t_pile->next != NULL)  
+		t_pile = p;
+		while (t_pile->next != NULL)
 			t_pile = t_pile->next;
 		t_pile->next = create_liste(p);
 		t_pile->next->tg = philo;
 		t_pile->next->number = t_pile->number + 1;
-		//t_pile->next->tg->number_of_times_each_philosopher_must_eat = t_pile->tg->number_of_times_each_philosopher_must_eat; 
-    	//t_pile->next->current_time = t_pile->current_time;
-		t_pile->next->time_to_eat = p->tg->time_to_eat;
-		pthread_mutex_init((&t_pile->next->mutex), NULL); 
+		//t_pile->next->time_to_eat = p->tg->time_to_eat;
+		pthread_mutex_init((&t_pile->next->mutex), NULL);
 		return (t_pile);
 	}
 	return (p);

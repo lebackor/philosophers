@@ -21,7 +21,7 @@ void	ft_death(t_philo *p)
 			- (p->time_of_last_meal - p->tg->current_time)) > p->tg->time_to_die)
 			&& p->meal > 0))
 		{
-			print((get_time() - p->tg->current_time), p, "is DEAD"); //qd on met le nb de meal il dead pas faut pas print
+			print((get_time() - p->tg->current_time), p, "is DEAD"); //qd on met le nb de meal il dead pas faut pas print, enft ca print dead psq entre le moment ou ya plus de meal et le temps qui tourne bah le temps tourne enft donc ca atteindra vite le time to death donc c pr sa qu4il dead bg
 			pthread_mutex_lock(&p->tg->canprint);
 			p->tg->can_print = 1;
 			pthread_mutex_unlock(&p->tg->canprint);

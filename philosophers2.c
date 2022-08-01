@@ -15,7 +15,7 @@
 void	*one_philo(t_philo *philo)
 {
 	print((get_time() - philo->tg->current_time), philo, "has taken fork");
-	ft_usleep2(philo->tg->time_to_die, philo);
+	ft_usleep2(philo->tg->time_to_die);
 	print((get_time() - philo->tg->current_time), philo, "is DEAD");
 	return (NULL);
 }

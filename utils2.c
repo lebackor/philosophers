@@ -20,7 +20,7 @@ void	*routine1(void *pol)
 	if (philo->tg->nb_philos == 1)
 		return (one_philo(philo));
 	if (philo->number % 2 == 0)
-		ft_usleep2(philo->time_to_eat / 10, philo);
+		ft_usleep2(philo->tg->time_to_eat / 10);
 	while (is_meal(philo) == 0 && philo->tg->someoneisdead == 0)
 	{
 		pthread_mutex_lock(&philo->next->mutex);
@@ -29,17 +29,17 @@ void	*routine1(void *pol)
 		print((get_time() - philo->tg->current_time), philo, "has taken fork");
 		increase_meal(philo);
 		print((get_time() - philo->tg->current_time), philo, "is eating");
-		ft_usleep2(philo->time_to_eat, philo);
+		ft_usleep2(philo->tg->time_to_eat);
 		pthread_mutex_unlock(&philo->mutex);
 		pthread_mutex_unlock(&philo->next->mutex);
 		print((get_time() - philo->tg->current_time), philo, "is sleeping");
-		ft_usleep2(philo->tg->time_to_sleep, philo);
+		ft_usleep2(philo->tg->time_to_sleep);
 		print((get_time() - philo->tg->current_time), philo, "is thinking");
 	}
 	return (NULL);
 }
 
-void	ft_usleep2(long long time, t_philo *p)
+void	ft_usleep2(long long time)
 {
 	long long	start;
 	long long	current;

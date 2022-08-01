@@ -48,7 +48,7 @@ typedef struct t_philo{
 	int  time_to_eat;
 	int meal;
 	long long time;
-	long long current_time;
+//	long long current_time;
 	long long time_of_last_meal;
 	pthread_t		content;
 	pthread_mutex_t mutex;

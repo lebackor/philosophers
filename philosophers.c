@@ -47,7 +47,6 @@ void	ft_thread(t_philo *p)
 
 	i = 1;
 	tmp = p;
-	p->tg->current_time = get_time();
 	while (i <= p->tg->nb_philos)
 	{
 		if (i == p->tg->nb_philos)
@@ -85,6 +84,7 @@ void	put_philo(t_philo *p, t_info *philo)
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	tmp->next = p;
+	p->tg->current_time = get_time();
 	ft_thread(p);
 	ft_death(p);
 	ft_threadjoin(p);

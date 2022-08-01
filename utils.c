@@ -6,7 +6,7 @@
 /*   By: lebackor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 16:39:39 by lebackor          #+#    #+#             */
-/*   Updated: 2022/08/01 16:39:41 by lebackor         ###   ########.fr       */
+/*   Updated: 2022/08/01 19:56:26 by lebackor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,18 @@ int	ft_atoi(const char *str)
 	return (nb * sign);
 }
 
-long long get_time(void)
+long long	get_time(void)
 {
-	struct timeval tv;
+	struct	timeval tv;
 
 	gettimeofday(&tv, NULL);
 	return (((tv.tv_sec) * 1000) + ((tv.tv_usec) / 1000));
 }
 
-void increase_meal(t_philo *philo)
+void	increase_meal(t_philo *philo)
 {
-    pthread_mutex_lock(&philo->tg->meal);
-    philo->time_of_last_meal = get_time();
-    philo->meal++;
-    pthread_mutex_unlock(&philo->tg->meal);
+	pthread_mutex_lock(&philo->tg->meal);
+	philo->time_of_last_meal = get_time();
+	philo->meal++;
+	pthread_mutex_unlock(&philo->tg->meal);
 }

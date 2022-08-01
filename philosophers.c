@@ -6,7 +6,7 @@
 /*   By: lebackor <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/01 16:39:25 by lebackor          #+#    #+#             */
-/*   Updated: 2022/08/01 16:55:58 by lebackor         ###   ########.fr       */
+/*   Updated: 2022/08/01 19:54:25 by lebackor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_threadjoin(t_philo *p)
 
 void	put_philo(t_philo *p, t_info *philo)
 {
-	t_philo *tmp;
+	t_philo	*tmp;
 
 	while (philo->i++ < philo->nb_philos)
 		ft_addback(p, philo, philo->i);
@@ -93,8 +93,9 @@ void	put_philo(t_philo *p, t_info *philo)
 
 int	main(int ac, char **av)
 {
-	t_philo *p;
-	t_info *philos;
+	t_philo	*p;
+	t_info	*philos;
+
 	if (ac != 5 && ac != 6)
 		return (printf("Not the good args\n"));
 	if (ft_atoi(av[1]) < 1)

@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   liste.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lebackor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/01 16:39:53 by lebackor          #+#    #+#             */
+/*   Updated: 2022/08/01 16:40:00 by lebackor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
+
 t_philo	*create_liste(t_philo *p)
 {
 	p = malloc(sizeof(t_philo));
@@ -14,7 +27,7 @@ t_philo	*ft_addback(t_philo *p, t_info *philo, int i)
 	{
 		p->number = 1;
 		p->tg = philo;
-    	p->current_time = get_time();
+    	//p->current_time = get_time();
 		p->time_to_eat = p->tg->time_to_eat;
 		pthread_mutex_init((&p->mutex), NULL);
 	}

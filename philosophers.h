@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lebackor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/01 16:39:31 by lebackor          #+#    #+#             */
+/*   Updated: 2022/08/01 16:39:33 by lebackor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 #include <stdio.h>
@@ -49,16 +61,16 @@ t_philo	*ft_addback(t_philo *p, t_info *philo, int i);
 void    *routine();
 int	ft_atoi(const char *str);
 void ft_threadjoin(t_philo *p);
-//int is_dead(t_philo *p);
 int is_meal(t_philo *p);
 long long get_time(void);
 void ft_thread(t_philo *p);
 void print(long long time, t_philo *p, char *str);
 void mutex_destroy(t_philo *p);
 void ft_clean(t_philo *p, t_info *philo);
-void	ft_usleep(long long time);
+void	*routine1(void *pol);
 void    ft_death(t_philo *p);
 void    ft_usleep2(long long time, t_philo *p);
 void    *one_philo(t_philo *philo);
 void init_philo(t_info *philos, int ac, char **av);
+void increase_meal(t_philo *philo);
 #endif

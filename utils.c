@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lebackor <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/01 16:39:39 by lebackor          #+#    #+#             */
+/*   Updated: 2022/08/01 16:39:41 by lebackor         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 int	ft_atoi(const char *str)
@@ -35,4 +47,12 @@ long long get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return (((tv.tv_sec) * 1000) + ((tv.tv_usec) / 1000));
+}
+
+void increase_meal(t_philo *philo)
+{
+    pthread_mutex_lock(&philo->tg->meal);
+    philo->time_of_last_meal = get_time();
+    philo->meal++;
+    pthread_mutex_unlock(&philo->tg->meal);
 }

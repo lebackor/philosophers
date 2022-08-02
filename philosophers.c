@@ -98,13 +98,15 @@ int	main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 		return (printf("Not the good args\n"));
-	if (ft_atoi(av[1]) < 1)
-		return (printf("No Philosophers\n"));
+//	if (ft_atoi(av[1]) < 1)
+//		return (printf("No Philosophers\n"));
 	p = malloc(sizeof(t_philo));
 	*p = (t_philo){0};
 	philos = malloc(sizeof(t_info));
 	*philos = (t_info){0};
 	init_philo(philos, ac, av);
+	if (philos->current_time == 0)
+		return (0);
 	put_philo(p, philos);
 	mutex_destroy(p);
 	ft_clean(p, philos);

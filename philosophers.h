@@ -63,7 +63,7 @@ void		mutex_destroy(t_philo *p);
 void		ft_clean(t_philo *p, t_info *philo);
 void		ft_death(t_philo *p);
 void		ft_usleep2(long long time);
-void		init_philo(t_info *philos, int ac, char **av);
+int		init_philo(t_info *philos, int ac, char **av);
 void		increase_meal(t_philo *philo);
 void		*routine(void *pol);
 void		*one_philo(t_philo *philo);

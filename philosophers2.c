@@ -15,7 +15,7 @@
 void	*one_philo(t_philo *philo)
 {
 	print((get_time() - philo->tg->current_time), philo, "has taken fork");
-	ft_usleep2(philo->tg->time_to_die);
+	usleep(philo->tg->time_to_die * 1000);
 	print((get_time() - philo->tg->current_time), philo, "is DEAD");
 	return (NULL);
 }
@@ -37,7 +37,7 @@ int	is_number(char *str)
 int	init_philo(t_info *philos, int ac, char **av)
 {
 	if ((is_number(av[1]) == 1) || (is_number(av[2]) == 1)
-	|| (is_number(av[3]) == 1) || (is_number(av[4]) == 1))
+		|| (is_number(av[3]) == 1) || (is_number(av[4]) == 1))
 		return (printf("Parsing error, not int\n"));
 	philos->nb_philos = ft_atoi(av[1]);
 	philos->time_to_die = ft_atoi(av[2]);
@@ -52,7 +52,7 @@ int	init_philo(t_info *philos, int ac, char **av)
 	if (philos->number_of_times_each_philosopher_must_eat < 1 && ac == 6)
 		return (printf("Meal error\n"));
 	if ((philos->time_to_die < 0) || (philos->time_to_eat < 0)
-	|| (philos->time_to_sleep < 0))
+		|| (philos->time_to_sleep < 0))
 		return (printf("Time error\n"));
 	pthread_mutex_init((&philos->print), NULL);
 	pthread_mutex_init((&philos->meal), NULL);

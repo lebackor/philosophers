@@ -27,7 +27,6 @@ t_philo	*ft_addback(t_philo *p, t_info *philo, int i)
 	{
 		p->number = 1;
 		p->tg = philo;
-	//	p->time_to_eat = p->tg->time_to_eat;
 		pthread_mutex_init((&p->mutex), NULL);
 	}
 	else
@@ -35,10 +34,10 @@ t_philo	*ft_addback(t_philo *p, t_info *philo, int i)
 		t_pile = p;
 		while (t_pile->next != NULL)
 			t_pile = t_pile->next;
+		t_pile->next = NULL;
 		t_pile->next = create_liste(p);
 		t_pile->next->tg = philo;
 		t_pile->next->number = t_pile->number + 1;
-		//t_pile->next->time_to_eat = p->tg->time_to_eat;
 		pthread_mutex_init((&t_pile->next->mutex), NULL);
 		return (t_pile);
 	}

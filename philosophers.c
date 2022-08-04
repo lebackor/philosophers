@@ -21,8 +21,8 @@ void	*routine(void *pol)
 	philo->time_of_last_meal = get_time();
 	pthread_mutex_unlock(&philo->tg->meal);
 	if (philo->number % 2 == 0)
-		ft_usleep2(philo->tg->time_to_eat / 10);
-	while (is_meal(philo) == 0 && philo->tg->someoneisdead == 0)
+		usleep((philo->tg->time_to_eat * 1000) / 10);
+	while (is_meal(philo) == 0 && is_dead(philo) == 0)
 	{
 		pthread_mutex_lock(&philo->mutex);
 		print((get_time() - philo->tg->current_time), philo, "has taken fork");
@@ -30,11 +30,11 @@ void	*routine(void *pol)
 		print((get_time() - philo->tg->current_time), philo, "has taken fork");
 		increase_meal(philo);
 		print((get_time() - philo->tg->current_time), philo, "is eating");
-		ft_usleep2(philo->tg->time_to_eat);
+		usleep(philo->tg->time_to_eat * 1000);
 		pthread_mutex_unlock(&philo->next->mutex);
 		pthread_mutex_unlock(&philo->mutex);
 		print((get_time() - philo->tg->current_time), philo, "is sleeping");
-		ft_usleep2(philo->tg->time_to_sleep);
+		usleep(philo->tg->time_to_sleep * 1000);
 		print((get_time() - philo->tg->current_time), philo, "is thinking");
 	}
 	return (NULL);
@@ -84,7 +84,6 @@ void	put_philo(t_philo *p, t_info *philo)
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	tmp->next = p;
-	p->tg->current_time = get_time();
 	ft_thread(p);
 	ft_death(p);
 	ft_threadjoin(p);
@@ -98,8 +97,6 @@ int	main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 		return (printf("Not the good args\n"));
-//	if (ft_atoi(av[1]) < 1)
-//		return (printf("No Philosophers\n"));
 	p = malloc(sizeof(t_philo));
 	*p = (t_philo){0};
 	philos = malloc(sizeof(t_info));
@@ -107,6 +104,7 @@ int	main(int ac, char **av)
 	init_philo(philos, ac, av);
 	if (philos->current_time == 0)
 		return (0);
+	//p->tg->current_time = get_time();
 	put_philo(p, philos);
 	mutex_destroy(p);
 	ft_clean(p, philos);

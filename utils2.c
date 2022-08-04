@@ -20,7 +20,7 @@ void	*routine1(void *pol)
 	if (philo->tg->nb_philos == 1)
 		return (one_philo(philo));
 	if (philo->number % 2 == 0)
-		ft_usleep2(philo->tg->time_to_eat / 10);
+		usleep((philo->tg->time_to_eat * 1000) / 10);
 	while (is_meal(philo) == 0 && philo->tg->someoneisdead == 0)
 	{
 		pthread_mutex_lock(&philo->next->mutex);
@@ -29,16 +29,16 @@ void	*routine1(void *pol)
 		print((get_time() - philo->tg->current_time), philo, "has taken fork");
 		increase_meal(philo);
 		print((get_time() - philo->tg->current_time), philo, "is eating");
-		ft_usleep2(philo->tg->time_to_eat);
+		usleep(philo->tg->time_to_eat * 1000);
 		pthread_mutex_unlock(&philo->mutex);
 		pthread_mutex_unlock(&philo->next->mutex);
 		print((get_time() - philo->tg->current_time), philo, "is sleeping");
-		ft_usleep2(philo->tg->time_to_sleep);
+		usleep(philo->tg->time_to_sleep * 1000);
 		print((get_time() - philo->tg->current_time), philo, "is thinking");
 	}
 	return (NULL);
 }
-
+/*
 void	ft_usleep2(long long time)
 {
 	long long	start;
@@ -55,7 +55,7 @@ void	ft_usleep2(long long time)
 		else
 			usleep((time - current) / 10);
 	}
-}
+}*/
 
 void	print(long long time, t_philo *p, char *str)
 {
@@ -78,6 +78,9 @@ void	mutex_destroy(t_philo *p)
 	i = 0;
 	tmp = p;
 	pthread_mutex_destroy(&p->tg->print);
+	pthread_mutex_destroy(&p->tg->meal);
+	pthread_mutex_destroy(&p->tg->canprint);
+	pthread_mutex_destroy(&p->tg->candeath);
 	while (i < p->tg->nb_philos)
 	{
 		pthread_mutex_destroy(&tmp->mutex);
@@ -100,6 +103,5 @@ void	ft_clean(t_philo *p, t_info *philo)
 			free(tmp);
 		i++;
 	}
-	if (philo)
-		free(philo);
+	free(philo);
 }

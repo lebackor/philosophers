@@ -104,7 +104,6 @@ int	main(int ac, char **av)
 	init_philo(philos, ac, av);
 	if (philos->current_time == 0)
 		return (0);
-	//p->tg->current_time = get_time();
 	put_philo(p, philos);
 	mutex_destroy(p);
 	ft_clean(p, philos);

@@ -38,24 +38,6 @@ void	*routine1(void *pol)
 	}
 	return (NULL);
 }
-/*
-void	ft_usleep2(long long time)
-{
-	long long	start;
-	long long	current;
-
-	start = get_time();
-	while (1)
-	{
-		current = get_time() - start;
-		if (current >= time)
-			return ;
-		if (time - current >= 1000)
-			usleep(100);
-		else
-			usleep((time - current) / 10);
-	}
-}*/
 
 void	print(long long time, t_philo *p, char *str)
 {

@@ -15,6 +15,7 @@
 t_philo	*create_liste(t_philo *p)
 {
 	p = malloc(sizeof(t_philo));
+	p->meal = 0;
 	p->next = NULL;
 	return (p);
 }
